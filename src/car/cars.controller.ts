@@ -1,5 +1,5 @@
 
-import { Controller, Get, Post, Body, Param, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { Car } from './car.model';
 
@@ -12,7 +12,7 @@ export class CarsController {
     return this.carsService.getCars();
   }
 
-  @Get(':id')
+  @Get(':id/')
   get(@Param('id') id: string) {
     return this.carsService.getCar(id);
   }
@@ -26,6 +26,16 @@ export class CarsController {
   update(@Param('id') id: string, @Body() car: Car) {
 
     return this.carsService.updateCar(id, car);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string) {
+    return this.carsService.deleteCar(id);
+  }
+
+  @Get(':id/manifacturer')
+  getManifacturer(@Param('id') id: string) {
+    return this.carsService.getCarManifacturer(id);
   }
 
 }
