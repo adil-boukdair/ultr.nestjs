@@ -1,20 +1,31 @@
 import { Injectable } from '@nestjs/common';
 import { Car } from './car.model';
 import { v4 as uuid } from 'uuid';
-import { InMomoryDataBaseUtils } from '../utils/in.memory.db.utils.service';
+import { InMomoryDataBase } from '../in.memory.db.utils.service';
 import { GeneratorUtilsService } from '../utils/generator.utils.service';
+import { CarEntity } from './car.entity';
+import { CarMapper } from './car.mapper';
+import { InjectRepository  } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { async } from 'rxjs/internal/scheduler/async';
 
 @Injectable()
 export class CarsDaoService {
 
   constructor(
-    private inMemory: InMomoryDataBaseUtils,
+    private inMemory: InMomoryDataBase,
     private readonly generatorUtilsService: GeneratorUtilsService,
+    @InjectRepository(CarEntity)
+    private readonly carRepository: Repository<CarEntity>,
   ) {}
 
   create(car: Car): Car {
-    car.id = this.generatorUtilsService.uuid();
-    this.inMemory.save(car);
+    const carEntity: CarEntity = CarMapper.toEntity(car);
+
+
+   //  return await this.carRepository.save(carEntity);
+    // car.id = this.generatorUtilsService.uuid();
+    // this.inMemory.save(car);
     return {...car};
   }
 

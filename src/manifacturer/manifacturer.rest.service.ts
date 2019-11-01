@@ -1,11 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Manifacturer } from './Manifacturer.model';
 import { ManifacturerDaoService } from './manifacturer.dao.service';
+import { ManifacturerRepository } from './manifacturer.repository';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class ManifacturerService {
+export class ManifacturerRestService {
 
-    constructor(private readonly manifacturerDaoService: ManifacturerDaoService) {}
+    constructor(
+      private readonly manifacturerDaoService: ManifacturerDaoService,
+      @InjectRepository(ManifacturerRepository) private readonly manifacturerRepository: ManifacturerRepository) {}
 
     createManifacturer(manifacturer: Manifacturer): Manifacturer {
         return this.manifacturerDaoService.create(manifacturer);

@@ -1,11 +1,11 @@
 
-import { Controller, Get, Post, Body, Param, Patch, Delete } from '@nestjs/common';
-import { CarsService } from './cars.service';
+import { Controller, Get, Post, Body, Param, Patch, Delete, Put } from '@nestjs/common';
+import { CarsRestService } from './cars.rest.service';
 import { Car } from './car.model';
 
 @Controller('cars')
 export class CarsController {
-  constructor(private readonly carsService: CarsService) {}
+  constructor(private readonly carsService: CarsRestService) {}
 
   @Get()
   getAll() {
