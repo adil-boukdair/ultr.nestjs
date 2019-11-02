@@ -9,11 +9,8 @@ export class DateUtilsService {
         return moment(date, this.DATE_FORMAT, true).isValid();
     }
 
-    isDateBeforeNumberOfMonths(date: Date, numberOfMonths: number): boolean {
-
-        const numberOfMonthsFromNow: moment.Moment = moment(new Date()).subtract(18, 'months');
-
-        return moment(date).isBefore(numberOfMonthsFromNow);
+    subtractFromDate(date: Date, unit: moment.unitOfTime.Base, value: number): Date {
+        return moment(date).subtract(value, unit).toDate();
     }
 
 }

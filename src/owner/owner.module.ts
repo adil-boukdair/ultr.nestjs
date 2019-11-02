@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { UtilsModule } from '../utils/utils.module';
-import { GeneratorUtilsService } from '../utils/generator.utils.service';
-import { InMomoryDataBase } from '../in.memory.db.utils.service';
-import { OwnerDaoService } from './owner.dao.service';
 import { OwnerProcessService } from './owner.process.service';
+import { OwnerEntity } from './owner.entity';
+import { OwnerRepository } from './owner.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-    imports: [UtilsModule],
+    imports: [UtilsModule, TypeOrmModule.forFeature([OwnerEntity, OwnerRepository])],
     controllers: [],
-    providers: [OwnerProcessService, OwnerDaoService, InMomoryDataBase, GeneratorUtilsService],
-    exports: [OwnerProcessService, OwnerDaoService],
+    providers: [OwnerProcessService],
+    exports: [OwnerProcessService],
   })
 export class OwnerModule {}

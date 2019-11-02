@@ -1,23 +1,20 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { Car } from './car.model';
-
-import { CarsDaoService } from './cars.dao.service';
 import { DateUtilsService } from '../utils/date.utils.service';
-import { ManifacturerRestService } from '../manifacturer/manifacturer.rest.service';
 import { OwnerProcessService } from '../owner/owner.process.service';
 import { CarRepository } from './car.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CarEntity } from './car.entity';
-import { CarMapper } from './car.mapper';
 import { Manifacturer } from 'src/manifacturer/Manifacturer.model';
-import { ManifacturerRepository } from 'src/manifacturer/manifacturer.repository';
+import { CarProcessService } from './car.process.service';
 
 @Injectable()
 export class CarsRestService {
 
   constructor(
     private readonly dateUtilsService: DateUtilsService,
-    @InjectRepository(CarRepository) private readonly carRepository: CarRepository) {
+    @InjectRepository(CarRepository) private readonly carRepository: CarRepository,
+    private readonly ownerProcessService: OwnerProcessService,
+    private readonly carProcessService: CarProcessService) {
   }
 
   createCar(car: Car): Promise<Car> {
@@ -28,6 +25,8 @@ export class CarsRestService {
   }
 
   getCars(): Promise<Car[]> {
+    this.ownerProcessService.removePastOwners();
+    this.carProcessService.applyDiscount();
     return this.carRepository.getCars(['owners', 'manifacturer']);
   }
 

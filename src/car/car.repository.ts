@@ -1,5 +1,5 @@
 
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository, getConnection } from 'typeorm';
 import { CarEntity } from './car.entity';
 import { Car } from './car.model';
 
@@ -28,5 +28,16 @@ export class CarRepository extends Repository<CarEntity> {
 
   async getCarWithRelations(id: string, relationsToLoad: string[]) {
       return await this.findOne(id, {relations: relationsToLoad});
+  }
+
+  async applyDiscount(percent: number, firstDate: Date, secondDate: Date) {
+
+    return getConnection()
+    .createQueryBuilder()
+    .update(CarEntity)
+    .set({price: () => `price + (price *${percent} /100)` })
+    .andWhere('firstRegistrationDate < :firstD', {firstD: firstDate})
+    .andWhere('firstRegistrationDate > :secondD', {secondD: secondDate})
+    .execute();
   }
 }
