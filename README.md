@@ -1,29 +1,49 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+### Description ###
+This is a CRUD API app using nestjs and typeorm with mysql database
 
-### What is this repository for? ###
+CRUD URL:
+GET http://localhost:3000/cars 
+GET http://localhost:3000/cars/:id
+DELETE http://localhost:3000/cars/:id
+POST http://localhost:3000/cars
+Create new ressource
+Body json example: {
+	"price": 78000,
+  	"firstRegistrationDate": "2019-12-01",
+  	"manifacturer": {
+      	"name": "BMW",
+      	"phone": "059399483",
+      	"siret": "090 9939993 9929"
+    },
+  	"owners":[
+    {
+"name": "John Doe",
+"purchaseDate": "2019-12-01"
+}]
+}
+PATCH http://localhost:3000/cars/:id
+Update ressource
+Body json example: {
+	"price": 71000,
+  	"firstRegistrationDate": "2017-12-01"
+}
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Installation
 
-### How do I get set up? ###
+```bash
+$ npm install
+```
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+## Running the app
 
-### Contribution guidelines ###
+```bash
+# development
+$ npm run start
 
-* Writing tests
-* Code review
-* Other guidelines
+# watch mode
+$ npm run start:dev
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+# production mode
+$ npm run start:prod

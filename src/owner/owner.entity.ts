@@ -10,6 +10,6 @@ export class OwnerEntity {
 
     @Column('date') purchaseDate: Date;
 
-    @ManyToOne(type => CarEntity, car => car.owners)
+    @ManyToOne(type => CarEntity, car => car.owners, {onDelete: 'CASCADE'})
     car: CarEntity;
 }

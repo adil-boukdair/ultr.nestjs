@@ -6,6 +6,7 @@ import { CarRepository } from './car.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Manifacturer } from 'src/manifacturer/Manifacturer.model';
 import { CarProcessService } from './car.process.service';
+import {Constant} from '../utils/const';
 
 @Injectable()
 export class CarsRestService {
@@ -25,36 +26,42 @@ export class CarsRestService {
   }
 
   getCars(): Promise<Car[]> {
+    // Trigger Processes to clean db and apply discounts
+    // this should probably be in an other place
     this.ownerProcessService.removePastOwners();
     this.carProcessService.applyDiscount();
-    return this.carRepository.getCars(['owners', 'manifacturer']);
+    return this.carRepository.getCars([Constant.RESOURCE.OWNERS, Constant.RESOURCE.MANFACTURER]);
   }
 
   getCar(id: string): Promise<Car> {
-    return this.carRepository.getCar(id).catch( e => {
-      throw new NotFoundException('Could not find car with id:' + id);
+    return this.carRepository.getCar(id, [Constant.RESOURCE.OWNERS, Constant.RESOURCE.MANFACTURER]).catch( e => {
+      throw new NotFoundException(Constant.CAR_NOT_FOUND + id);
     });
   }
 
-  async updateCar(id: string, car: Car) {
-    // check if resource exist before updating
-    await this.getCar(id);
-    return  this.carRepository.update(id, car);
+  updateCar(id: string, car: Car) {
+    // check if car Exist
+    this.getCar(id);
+    this.carRepository.update(id, car);
   }
 
-  deleteCar(id: string) {
-    return this.carRepository.delete(id);
+  async deleteCar(id: string) {
+    await this.carRepository.delete(id).then((res: any) => {
+      if (res.affected === 0) {
+        throw new NotFoundException(Constant.CAR_NOT_FOUND + id);
+      }
+    });
   }
 
   async getCarManifacturer(id: string): Promise<Manifacturer> {
 
     let manifacturer: Manifacturer;
-    await this.carRepository.getCarWithRelations(id, ['manifacturer'])
+    await this.carRepository.getCarWithRelations(id, [Constant.RESOURCE.MANFACTURER])
     .then( car => manifacturer = car.manifacturer)
-    .catch( e => {throw new NotFoundException('Could not find car with id:' + id); });
+    .catch( e => {throw new NotFoundException(Constant.CAR_NOT_FOUND + id); });
 
     if (!manifacturer) {
-      throw new NotFoundException('This Car does not have a manifacturer :) ');
+      throw new NotFoundException(Constant.CAR_WITH_NO_MANIFACTURER);
     }
 
     return manifacturer;

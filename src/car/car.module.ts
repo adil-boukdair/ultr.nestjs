@@ -1,6 +1,6 @@
 
 import { Module } from '@nestjs/common';
-import { CarsController } from './cars.controller';
+import { CarController } from './car.controller';
 import { CarsRestService } from './cars.rest.service';
 import { UtilsModule } from '../utils/utils.module';
 import { DateUtilsService } from '../utils/date.utils.service';
@@ -13,7 +13,7 @@ import { CarProcessService } from './car.process.service';
 
 @Module({
   imports: [UtilsModule, ManifacturerModule, OwnerModule, TypeOrmModule.forFeature([CarEntity, CarRepository])],
-  controllers: [CarsController],
+  controllers: [CarController],
   providers: [CarsRestService, DateUtilsService, CarProcessService],
 })
-export class CarsModule {}
+export class CarModule {}

@@ -14,8 +14,8 @@ export class CarRepository extends Repository<CarEntity> {
       return await this.find({relations: relationsToLoad});
   }
 
-  async getCar(id: string) {
-      return await this.findOneOrFail(id);
+  async getCar(id: string, relationsToLoad: string[]) {
+      return await this.findOneOrFail({ where: {id}, relations: relationsToLoad});
   }
 
   async updateCar(id: string, carDto: Car) {
