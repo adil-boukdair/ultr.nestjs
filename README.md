@@ -4,12 +4,12 @@
 This is a CRUD API app using nestjs and typeorm with mysql database
 
 CRUD URL:
-GET http://localhost:3000/cars <br/>
-GET http://localhost:3000/cars/:id <br/>
-DELETE http://localhost:3000/cars/:id <br/>
-POST http://localhost:3000/cars <br/>
-Create new ressource <br/>
-Body json example: <br/>
+    *GET http://localhost:3000/cars*
+    *GET http://localhost:3000/cars/:id*
+    *DELETE http://localhost:3000/cars/:id*
+    *POST http://localhost:3000/cars*
+Create new ressource.
+Body json example: .
 ```json
 {
 	"price": 78000,
@@ -26,9 +26,9 @@ Body json example: <br/>
 }]
 }
 ```
-PATCH http://localhost:3000/cars/:id <br/>
-Update ressource <br/>
-Body json example:  <br/>
+*PATCH http://localhost:3000/cars/:id*
+Update ressource.
+Body json example:.
 ```json
 {
 	"price": 71000,
