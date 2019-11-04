@@ -44,7 +44,7 @@ Body json example:.
 }
 ```
 
-The process that apply discounts and remove past owners are trigger by calling get all cars.
+The process that apply discounts and remove past owners are triggered by calling get all cars.
 
 
 ## Installation
