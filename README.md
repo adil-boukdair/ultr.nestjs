@@ -7,7 +7,7 @@ This is a CRUD API app using nestjs and typeorm with mysql database
 CRUD URL:
 GET http://localhost:3000/cars
     
-GET http://localhost:3000/cars/:id*
+GET http://localhost:3000/cars/:id
     
 DELETE http://localhost:3000/cars/:id
     
@@ -43,6 +43,10 @@ Body json example:.
   	"firstRegistrationDate": "2017-12-01"
 }
 ```
+
+The process that apply discounts and remove past owners are trigger by calling get all cars.
+
+
 ## Installation
 
 ```bash
